@@ -23,6 +23,8 @@ def save_file(filename, data):
         save_json(filename, data)
     elif file_extension == 'yml':
         save_yaml(filename, data)
+    elif file_extension == 'xml':
+        save_xml(filename, data)
     else:
         print("Error: Wrong file format!")
 
@@ -64,8 +66,16 @@ def load_xml(filename):
             print("Xml loaded!")
             return data
         except xmltodict.ExpatError:
-            print("Error: Invalid Xml syntax.")
+            print("Error: Invalid Xml syntax!")
             return None
+        
+def save_xml(filename, data):
+    if data is not None:
+        with open(filename, 'w') as file:
+            file.write(xmltodict.unparse(data, pretty=True))
+        print("Xml saved!")
+    else:
+        print("Error: No XML data to save!")
 
 def main():
     parser = argparse.ArgumentParser(description="Data Processor")
