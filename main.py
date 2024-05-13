@@ -1,13 +1,36 @@
 import argparse
+import json
 
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Convert files')
-    parser.add_argument('input_file', help='Input file path + extension')
-    parser.add_argument('output_file', help='Output file path + extension')
-    return parser.parse_args()
+def load_file(filename):
+    data = {}
+    file_extension = filename.split('.')[-1]
+    if file_extension == 'json':
+        data = load_json(filename)
+    else:
+        print("Error: Wrong file format!")
+    return data
 
-if __name__ == '__main__':
-    args = parse_arguments()
-    print(f'Input file: {args.input_file}')
-    print(f'Output file: {args.output_file}')
+
+def load_json(filename):
+    with open(filename, 'r') as file:
+        try:
+            data = json.load(file)
+            print("Json loaded!")
+            return data
+        except json.JSONDecodeError:
+            print("Error: Invalid JSON syntax!")
+            return {}
+
+def main():
+    parser = argparse.ArgumentParser(description="Data Processor")
+    parser.add_argument("input_files", nargs=2, help="Input files + formats")
+    args = parser.parse_args()
+    
+    input_files = args.input_files
+
+    filename, file_format = input_files[0].split('.')
+    data = load_file(filename + '.' + file_format)
+
+if __name__ == "__main__":
+    main()
