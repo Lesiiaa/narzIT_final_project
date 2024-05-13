@@ -18,7 +18,7 @@ jobs:
       uses: actions/code@32
       
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: '3.12.1'
         
@@ -28,10 +28,10 @@ jobs:
         pip install -r u installResources.ps1
         
     - name: Build executable
-      run: pyinstaller.exe --onefile --noconsole project.py
+      run: pyinstaller.exe --onefile --noconsole main.py
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: my-exe
         path: dist/main.exe
