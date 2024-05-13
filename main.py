@@ -18,6 +18,8 @@ def save_file(filename, data):
     file_extension = filename.split('.')[-1]
     if file_extension == 'json':
         save_json(filename, data)
+    elif file_extension == 'yml':
+        save_yaml(filename, data)
     else:
         print("Error: Wrong file format!")
 
@@ -45,6 +47,12 @@ def load_yaml(filename):
             return data
         except yaml.YAMLError:
             print("Error: Invalid Yaml syntax!")
+
+def save_yaml(filename, data):
+    with open(filename, 'w') as file:
+        yaml.dump(data, file, default_flow_style=False)
+    print("Yaml saved!")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Data Processor")
