@@ -14,8 +14,8 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - name: Code
-      uses: actions/code@32
+    - name: Checkout repository
+      uses: actions/checkout@v4
       
     - name: Set up Python
       uses: actions/setup-python@v4
