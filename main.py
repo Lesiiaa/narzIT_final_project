@@ -1,6 +1,7 @@
 import argparse
 import json
 import yaml
+import xmltodict
 
 
 def load_file(filename):
@@ -10,6 +11,8 @@ def load_file(filename):
         data = load_json(filename)
     elif file_extension == 'yml':
         data = load_yaml(filename)
+    elif file_extension == 'xml':
+        data = load_xml(filename)
     else:
         print("Error: Wrong file format!")
     return data
@@ -53,6 +56,16 @@ def save_yaml(filename, data):
         yaml.dump(data, file, default_flow_style=False)
     print("Yaml saved!")
 
+
+def load_xml(filename):
+    with open(filename, 'r') as file:
+        try:
+            data = xmltodict.parse(file.read())
+            print("Xml loaded!")
+            return data
+        except xmltodict.ExpatError:
+            print("Error: Invalid Xml syntax.")
+            return None
 
 def main():
     parser = argparse.ArgumentParser(description="Data Processor")
