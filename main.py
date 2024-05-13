@@ -1,5 +1,6 @@
 import argparse
 import json
+import yaml
 
 
 def load_file(filename):
@@ -7,6 +8,8 @@ def load_file(filename):
     file_extension = filename.split('.')[-1]
     if file_extension == 'json':
         data = load_json(filename)
+    elif file_extension == 'yml':
+        data = load_yaml(filename)
     else:
         print("Error: Wrong file format!")
     return data
@@ -26,15 +29,22 @@ def load_json(filename):
             print("Json loaded!")
             return data
         except json.JSONDecodeError:
-            print("Error: Invalid JSON syntax!")
-            return {}
-
+            print("Error: Invalid Json syntax!")
 
 def save_json(filename, data):
     with open(filename, 'w') as file:
         json.dump(data, file, indent=4)
     print("Json saved!")
 
+
+def load_yaml(filename):
+    with open(filename, 'r') as file:
+        try:
+            data = yaml.safe_load(file)
+            print("Yaml loaded!")
+            return data
+        except yaml.YAMLError:
+            print("Error: Invalid Yaml syntax!")
 
 def main():
     parser = argparse.ArgumentParser(description="Data Processor")
